@@ -76,3 +76,18 @@ create table stock_agent(id int primary key auto_increment, date_stock date, id_
 )
 
 
+select st.date_stock, p.nom, st.montant_initial, st.montant_operations, st.montant_restant,
+	st.quantite_initiale, st.quantite_operations, st.quantite_restant
+from stock_agent st, t_produit p, t_agent a, t_agent_produit ap
+where st.id_agent_produit = ap.id
+	and a.id = ap.id_agent
+	and p.id = ap.id_produit
+	and a.id = 2;
+
+select a.prenom, pc.id, pc.nom from t_categorie_produit pc, t_produit p, t_agent_produit ap, t_agent a
+where pc.id = p.id_categorie_produit
+	and p.id = ap.id_produit
+	and a.id = ap.id_agent
+	and a.id = 3
+	GROUP BY pc.id;
+

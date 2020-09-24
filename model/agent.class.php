@@ -38,4 +38,20 @@ class Agent
 			 or print_r($resultat->errorInfo());
 		return $resultat->fetchAll();	
 	}
+
+	function afficher_categorie_produit_agent($id){
+		$connexion = new Connexion();
+		$bdd = $connexion->GetConnexion();
+		$resultat = $bdd->prepare("
+			select a.prenom, pc.id, pc.nom from t_categorie_produit pc, t_produit p, t_agent_produit ap, t_agent a
+			where pc.id = p.id_categorie_produit
+				and p.id = ap.id_produit
+				and a.id = ap.id_agent
+				and a.id = :d
+				GROUP BY pc.id;
+			");
+		$resultat->execute(array('d'=>$id))
+			 or print_r($resultat->errorInfo());
+		return $resultat->fetchAll();		
+	}
 }

@@ -30,7 +30,7 @@
  							<tr>
  								<td><?php echo $i; ?></td>
  								<td><?php echo $agent['prenom'] ?></td>
- 								<td><a href="voir_stock_agent.php?id_agent=<?php echo $agent['id'] ?>" class="btn btn-primary">Voir Stock</a></td>
+ 								<td><a href="choix_categorie_produit_agent.php?id_agent=<?php echo $agent['id'] ?>" class="btn btn-primary">Voir Stock</a></td>
  							</tr>
  						<?php  $i++; } ?>
  					</tbody>
