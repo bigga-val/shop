@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark bg-dark">
     <a style="color:aliceblue;">Navbar</a>
-    <a style="color:aliceblue;">Fournisseur</a>
+    <a style="color:aliceblue;" href="choix_categorie_produit_agent.php">Stocks Agent</a>
     <a style="color:aliceblue;" href="liste_agents.php">Agents</a>
     <form class="form-inline">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
