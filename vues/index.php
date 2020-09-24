@@ -16,9 +16,8 @@
     require_once('../model/format_carte.class.php');
     require_once('../model/type_unites.class.php');
     require_once('../model/devise.class.php');
-    require_once('../model/agent.class.php');
-    $agent = new Agent();
-    $agents = $agent->afficher_agents();
+    
+    
     $fournisseur = new Fournisseur();
     $fournisseurs = $fournisseur->afficher_fournisseurs();
     $devise = new Devise();
