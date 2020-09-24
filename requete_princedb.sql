@@ -48,3 +48,31 @@ from t_operation_fournisseur of, t_produit p, devise d
 where of.id_produit = p.id
 	and of.id_devise = d.id_devise
 	order by of.date_fournissement DESC;
+
+create table utilisateur(id int primary key auto_increment, login varchar(20), email varchar(50), password varchar(100));
+
+create table t_agent(id int primary key auto_increment, nom varchar(20), postnom varchar(20), prenom varchar(20), 
+	date_naissance date, adresse varchar(50), telephone varchar(15), date_embauche date
+);
+create table t_agent_produit(id int primary key auto_increment, id_produit int, id_agent int,
+	constraint fk_agent_produit foreign key(id_produit) references t_produit(id),
+	constraint fk_produit_agent foreign key(id_agent) references t_agent(id)
+);
+
+
+create table t_historique_fournissement_agent(id int primary key auto_increment, date_fournissement date, 
+	id_agent_produit int ,montant double, quantite int, id_type_unites int, id_format_carte int,
+	constraint fk_historique_agent_produit foreign key(id_agent_produit) references t_agent_produit(id),
+	constraint fk_historique_type_unites foreign key(id_type_unites) references t_type_unites(id),
+	constraint fk_historique_format_carte foreign key(id_format_carte) references t_format_carte(id)
+);
+
+create table stock_agent(id int primary key auto_increment, date_stock date, id_agent_produit int,
+	montant_initial double, montant_operations double, montant_restant double,
+	quantite_initiale double, quantite_operations double, quantite_restant double,
+	id_historique_fournissement int,
+	constraint fk_stock_agent_produit foreign key(id_agent_produit) references t_agent_produit(id),
+	constraint fk_stock_historique_fournissement foreign key(id_historique_fournissement) references t_historique_fournissement_agent(id)
+)
+
+
