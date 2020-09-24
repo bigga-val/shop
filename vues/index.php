@@ -11,7 +11,7 @@
     $devise = new Devise();
     $devises = $devise->afficher_devises();
     $derniers_fournissements = $fournisseur->afficher_derniers_fournissemens();
-    print_r($derniers_fournissements[0]);
+    // print_r($derniers_fournissements[0]);
 
 
  ?>
