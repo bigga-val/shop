@@ -42,7 +42,7 @@ $(document).ready(function(){
 								url:"../controller/fournisseur_controller.php",
 								data:"typeunites="+typeunites,
 								success:function(data){
-									// console.log(data);
+									console.log(data);
 									$("#format_cartes").html(data);
 								},
 								error:function(e){

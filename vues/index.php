@@ -1,4 +1,14 @@
 <?php 
+    
+    session_start();
+    if(empty($_SESSION['login']) or !isset($_SESSION['login'])){
+        session_destroy();
+        unset($_SESSION);
+        header("Location:../");
+    }else{
+        // print_r($_SESSION);
+        
+    }
 
     require_once('../model/fournisseur.class.php');
     require_once('../model/categorie.class.php');

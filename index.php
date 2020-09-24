@@ -1,4 +1,5 @@
 <?php 
+	session_start();
 
  ?>
  <!DOCTYPE html>
@@ -17,7 +18,10 @@
  			<div class="col-3"></div>
  			<div class="col-6 bg- p-5">
  				<img src="#!" alt="Logo" class="centered">
- 				<form class="m-5 p-5 border border-success border-5" method="post" action>
+ 				<form class="m-5 p-5 border border-success border-5" method="post" action="controller/login_controller.php">
+ 					<div class="form-group">
+ 						<p class="text-danger"></p>
+ 					</div>
  					<div class="form-group">
  						<input type="email" name="email" id="email" class="form-control border border-success rounded" placeholder="Email">
  					</div>
