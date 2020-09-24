@@ -10,6 +10,8 @@
     $fournisseurs = $fournisseur->afficher_fournisseurs();
     $devise = new Devise();
     $devises = $devise->afficher_devises();
+    $derniers_fournissements = $fournisseur->afficher_derniers_fournissemens();
+    print_r($derniers_fournissements[0]);
 
 
  ?>
@@ -20,25 +22,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css"/>
+    <!-- <link rel="stylesheet" type="text/css" href="../assets/bootstrap.css"> -->
     <link rel="stylesheet" type="text/css" href="../assets/css/main.css"/>
     <title>Prince shop</title>
 </head>
 <body>
-    <nav class="navbar navbar-dark bg-dark">
-    <a style="color:aliceblue;">Navbar</a>
-    <a style="color:aliceblue;">Fournisseur</a>
-    <a style="color:aliceblue;">Agent</a>
-    <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-    </nav>     
+
+<?php include 'navbar.php'; ?>
+
 <div class="container">
-    <div class="row">
+    <div class="row p-0">
         <h2 class="text-center">Approvisionnement</h2>
     </div>
-    <div class="row">
-        
+    <div class="row pb-4">
         <div class="col-md-6 pt-5">
             
           <form action="../controller/produit_fournisseur_controller.php" method="post">
@@ -62,6 +58,9 @@
                 <div class="form-group">
                     <input type="number" class="form-control form-control-sm" placeholder="montant" required name="montant">    
                 </div>
+                <input type="submit" name="form_fournisseur" class="btn btn-primary" value="enregistrer">
+                <input type="cancel" class="btn btn-danger" value="annuler">
+
         </div>
         <div class="col-md-6 pt-5">
 
@@ -83,11 +82,36 @@
                     </select>    
                 </div>
                 
-                </br>
-                <input type="submit" name="form_fournisseur" class="btn btn-primary block" value="enregistrer">
-                <input type="cancel" class="btn btn-danger" value="annuler">
            </form>
         
+        </div>
+    </div>
+    <div class="row">
+        <h2>Recents approvisionnements</h2>
+        <div class="col-md-12">
+            <table class="table table-hover">
+                <thead >
+                    <th>Date</th>
+                    <th>Fournisseur</th>
+                    <th>Produit</th>
+                    <th>Quantite</th>
+                    <th>Montant</th>
+                    <th>devise</th>    
+                </thead>
+                <tbody>
+                    <?php foreach ($derniers_fournissements as $fournissement) { ?>
+                        <tr>
+                            <td><?php echo $fournissement["date_fournissement"] ?></td>
+                            <td><?php echo $fournissement["fournisseur"] ?></td>
+                            <td><?php echo $fournissement["nom"]; ?></td>
+                            <td><?php echo $fournissement["quantite_produit"] ?></td>
+                            <td><?php echo $fournissement["montant"] ?></td>
+                            <td><?php echo $fournissement["nom_devise"] ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+
+            </table>
         </div>
     </div>
 </div>

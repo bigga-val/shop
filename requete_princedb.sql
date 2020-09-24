@@ -41,3 +41,10 @@ select p.nom, p.id from t_produit p, t_fournisseur f, r_fournisseur_produit pf
 where pf.id_fournisseur = f.id
 	and pf.id_produit = p.id
     and f.id = 1;
+
+
+select of.date_fournissement, of.montant, of.quantite_produit, p.nom, d.nom_devise
+from t_operation_fournisseur of, t_produit p, devise d
+where of.id_produit = p.id
+	and of.id_devise = d.id_devise
+	order by of.date_fournissement DESC;
