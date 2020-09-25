@@ -5,6 +5,7 @@ $(document).ready(function(){
 	let prod;
 	$("#type_unites").hide();
 	$("#format_cartes").hide();
+	$("#quantite").hide();
 	fournisseur.on("change", function(e){
 		// console.log($(this).val());
 		f = $(this).val();
@@ -18,6 +19,7 @@ $(document).ready(function(){
 					if(produit.val() == ayant_type[i]){
 						$("#type_unites").show();
 						$("#format_cartes").show();
+						$("#quantite").show();		
 						//console.log(produit.val());
 						prod = produit.val();
 						break;
@@ -25,6 +27,7 @@ $(document).ready(function(){
 						//$("#type_unites").attr('disactivad', 'disactivad');
 						$("#type_unites").hide();
 						$("#format_cartes").hide();
+						$("#quantite").hide();
 						prod = produit.val();
 					}	
 				}
@@ -36,6 +39,7 @@ $(document).ready(function(){
 						let type_unites = $("#type_unites");
 						type_unites.html(data);
 						typeunites = type_unites.val()
+						console.log(typeunites);
 						if(typeunites != null){
 							$.ajax({
 								type:"post",
@@ -44,12 +48,32 @@ $(document).ready(function(){
 								success:function(data){
 									console.log(data);
 									$("#format_cartes").html(data);
+									$("#format_cartes").on("change", function(){
+										console.log($(this).val());
+									})
 								},
 								error:function(e){
-									console.log(e);
+								console.log(e);
 								}
 							})
 						}
+						type_unites.change(function(){
+							console.log($(this).val())
+							// console.log($("#tableau_cartes").val())
+							let tab = $("#tableau_cartes").val().split(";")
+							console.log(tab)
+							if($(this).val() in tab){
+								console.log("ok")
+								$("#format_cartes").show()
+								$("#quantite").show()
+							}else{
+								// console.log("absent")
+								$("#format_cartes").hide()
+								$("#quantite").hide()
+							}
+							
+							
+						})
 
 					}
 				})

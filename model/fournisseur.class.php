@@ -32,7 +32,7 @@ class Fournisseur
 			where of.id_produit = p.id
 				and of.id_devise = d.id
 				and of.id_fournisseur = f.id
-				order by of.date_fournissement DESC LIMIT 5;
+				order by of.id DESC LIMIT 5;
 			");
 		$resultat->execute(array());
 		return $resultat->fetchAll();

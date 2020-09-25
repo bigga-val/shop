@@ -24,6 +24,30 @@
     $devises = $devise->afficher_devises();
     $derniers_fournissements = $fournisseur->afficher_derniers_fournissemens();
     // print_r($derniers_fournissements[0]);
+    $typeUnites = new TypeUnites();
+
+    $formatCarte = new FormatCarte();
+    $formats = $formatCarte->afficher_format_cartes();
+    $types = $typeUnites->afficher_types_unites();
+    // print_r($types);
+    $types_tab = array();
+    $formats_tab = array();
+    $liste = "";
+    foreach ($types as $type) {
+        array_push($types_tab, $type['id_produit']);
+    }
+
+    foreach ($formats as $format) {
+        array_push($formats_tab, $format);
+    }
+    for($i = 0; $i < count($formats_tab); $i++){
+        // echo $formats_tab[$i]['id_type_unites'];
+        $liste.= $formats_tab[$i]['id_type_unites'].";";
+    }
+    // echo($types_tab.toString());
+    
+    echo $liste;
+    //print_r($types_tab);
 
 
  ?>
@@ -48,52 +72,56 @@
     </div>
     <div class="row pb-4">
         <div class="col-md-6 pt-5">
-            
+        <!-- input qui fournit les produits cartes ou flash au fichier js -->
+        <input type="hidden" name="" value="<?php echo $liste ?>" id="tableau_cartes">            
+
           <form action="../controller/produit_fournisseur_controller.php" method="post">
                 
                 <div class="form-group">
-                    <select id="fournisseur" class="form-control form-control-sm" name="fournisseur">
-                        <option>Choisir le fournisseur</option>
+                    <select id="fournisseur" class="form-control form-control-sm" name="fournisseur" required>
+                        <option disabled selected hidden>Choisir le fournisseur</option>
                         <?php foreach($fournisseurs as $fournisseur) { ?>
                             <option value="<?php echo $fournisseur['id'] ?>"><?php echo $fournisseur['nom'] ?></option>
                         <?php } ?>
                     </select>    
                 </div>
                 <div class="form-group">
-                    <select id="produit" name="produit" class="form-control form-control-sm">
-                        <option>Choisir produit</option>
+                    <select id="produit" name="produit" class="form-control form-control-sm" required>
+                        <option selected hidden disabled>Choisir produit</option>
                     </select>    
                 </div>
-                <div class="form-group">
-                    <input type="number" name="quantite" class="form-control form-control-sm" placeholder="quantité" name="quantite">    
-                </div>
+                
+                
                 <div class="form-group">
                     <input type="number" class="form-control form-control-sm" placeholder="montant" required name="montant">    
+                </div>
+                <div class="form-group">
+                    <select class="form-control" name="devise" required>
+                        <option disabled selected hidden>Choisir la devise</option>
+                        <?php foreach ($devises as $devise) { ?>
+                            <option value="<?php echo $devise['id'] ?>"><?php echo $devise['nom_devise'] ?></option>
+                        <?php } ?>
+                    </select>    
                 </div>
                 <input type="submit" name="form_fournisseur" class="btn btn-primary" value="enregistrer">
                 <input type="cancel" class="btn btn-danger" value="annuler">
 
         </div>
         <div class="col-md-6 pt-5">
-
-                <div class="form-group">
-                    <select class="form-control" name="devise">
-                        <?php foreach ($devises as $devise) { ?>
-                            <option value="<?php echo $devise['id'] ?>"><?php echo $devise['nom_devise'] ?></option>
-                        <?php } ?>
-                    </select>    
-                </div>
                 <div class="form-group">
                     <select class="form-control form-control-sm" name="type_unites" id="type_unites">
                     
                     </select>    
                 </div>
+                
                 <div class="form-group">
                     <select class="form-control form-control-sm" name="format_carte" id="format_cartes">
                     
                     </select>    
                 </div>
-                
+                <div class="form-group">
+                    <input type="number" name="quantite" id="quantite" class="form-control form-control-sm" placeholder="quantité" name="quantite">    
+                </div>
            </form>
         
         </div>

@@ -68,11 +68,13 @@ create table t_historique_fournissement_agent(id int primary key auto_increment,
 );
 
 create table stock_agent(id int primary key auto_increment, date_stock date, id_agent_produit int,
-	montant_initial double, montant_operations double, montant_restant double,
+	montant_initial double, montant_operations double, montant_restant double,id_type_unites int,id_format_carte int,
 	quantite_initiale double, quantite_operations double, quantite_restant double,
 	id_historique_fournissement int,
 	constraint fk_stock_agent_produit foreign key(id_agent_produit) references t_agent_produit(id),
-	constraint fk_stock_historique_fournissement foreign key(id_historique_fournissement) references t_historique_fournissement_agent(id)
+	constraint fk_stock_historique_fournissement foreign key(id_historique_fournissement) references t_historique_fournissement_agent(id),
+	constraint fk_stock_agent_type_unites foreign key(id_type_unites) references t_type_unites(id),
+	constraint fk_stock_agent_format_carte foreign key(id_format_carte) references t_format_carte(id)
 )
 
 
@@ -91,3 +93,27 @@ where pc.id = p.id_categorie_produit
 	and a.id = 3
 	GROUP BY pc.id;
 
+alter table stock_agent
+add column id_type_unites int;
+alter table stock_agent
+add constraint fk_stock_agent_type_unites foreign key(id_format_carte) references t_type_unites(id);
+
+alter table stock_agent
+add column id_format_carte int;
+alter table stock_agent
+add constraint fk_stock_agent_format_carte foreign key(id_type_unites) references t_format_carte(id);
+
+
+select st.id, st.date_stock , p.nom, st.montant_initial, st.montant_operations, st.montant_restant, 
+	tu.nom_type, fc.nom_format,
+	st.quantite_initiale, st.quantite_operations, st.quantite_restant
+from stock_agent st, t_produit p, t_agent a, t_agent_produit ap, t_categorie_produit cp,
+	t_type_unites tu, t_format_carte fc
+where st.id_agent_produit = ap.id
+	and a.id = ap.id_agent
+	and p.id = ap.id_produit
+	and p.id_categorie_produit = cp.id
+	and st.id_type_unites = tu.id
+	and st.id_format_carte = fc.id
+	and a.id = 2 
+    and cp.id = 1;

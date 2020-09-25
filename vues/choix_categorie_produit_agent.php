@@ -4,7 +4,7 @@
 
 	require_once('../model/agent.class.php');
     $agent = new Agent();
-    $categories = $agent->afficher_categorie_produit_agent($id_agent);
+    // $categories = $agent->afficher_categorie_produit_agent($id_agent);
     $agents = $agent->afficher_agents();
     // print_r($categories);
  ?>
@@ -20,6 +20,7 @@
  	<?php include "navbar.php"; ?>
  	<div class="container">
  		<h2>Stock Agent</h2>
+
  		<div class="row p-5">
  					<!-- <table class="table table-hover">
  						<thead>
@@ -39,7 +40,7 @@
  					<div class="col-md-4">
  						<div class="form-group">
  							<select class="form-control" name="agent" id="agent">
- 								<option>Choisir un Agent</option>
+ 								<option disabled selected hidden>Choisir un Agent</option>
 	 							<?php foreach ($agents as $agent) {  ?>
 	 								<option  value="<?php echo $agent['id'] ?>"><?php echo $agent['prenom'] ?></option>
 	 							<?php } ?>
@@ -50,13 +51,22 @@
  						
  					</div>
  					<div class="col-md-4">
- 						<a href="" class="btn btn-primary">voir</a>
+ 						<button id="btn_voir_stock" class="btn btn-primary">voir</button>
  					</div>
  				
- 			</div>
- 		</div>
- 	</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12" id="tableau_stock">
+				<div class="jumbotron">
+					<h3>Aucune données à afficher</h3>
+					<p>Veuillez sélectionner un agent et la categorie de produit à afficher</p>
+				</div>
+			</div>
+		</div>
+	</div>
+ 	
  	<script type="text/javascript" src="../assets/js/jquery-3.3.1.min.js"></script>
  	<script type="text/javascript" src="../assets/js/ajax/tri_categorie_produit_agent.js"></script>
+ 	<script type="text/javascript" src="../assets/js/ajax/inventaire_stock_agent.js"></script>
  </body>
  </html>
