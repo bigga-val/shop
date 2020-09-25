@@ -24,13 +24,15 @@
  	<div class="container">
  		<h2><?php echo $info_agent['prenom'].' : '.$nom_produit['nom']; ?></h2>
  		<p>Inventaire du <?php echo $stock['date_stock']; ?></p>
+ 		<form method="post" action="../controller/inventaire_stock_agent_controller.php">
  		<div class="row">
+
  			<div class="col-md-6">
- 				<form method="post" action="../controller/inventaire_stock_agent_controller.php">
+ 				
  					<div class="form-group">
  						<label>Montant Initial</label>
  						<input class="form-control" id="montant_initial" value="<?php echo $stock['montant_initial'] ?>" name="montant_initial" disabled>
- 						<input type="hidden" name="inventaire_emoney">
+ 						<input type="hidden" name="inventaire_unites">
  						<input type="hidden" name="id_stock" value="<?php echo($id_stock) ?>">
  						<input type="hidden" value="<?php echo $stock['montant_initial'] ?>" name="montant_initial">
  					</div>
@@ -42,25 +44,29 @@
  						<label>Montant Restant</label>
  						<input type="number" name="montant_restant" class="form-control" id="montant_restant" value="" placeholder="Montant restant" disabled>
  					</div>
- 					<input type="submit" class="btn btn-success" value="Enregistrer">
+ 					
 
- 				</form>
+ 				
  			</div>
  			<div class="col-md-6">
  				<div class="form-group">
  					<label>Quantité initiale</label>
- 					<input class="form-control" type="text" value="<?php echo $stock['quantite_initiale'] ?>" name="quantite_initiale" id="quantite_initiale" disabled>
+ 					<input class="form-control" type="text" value="<?php echo $stock['quantite_initiale'] ?>" name="" id="quantite_initiale" disabled>
+ 					<input class="form-control" type="hidden" value="<?php echo $stock['quantite_initiale'] ?>" name="quantite_initiale" id="quantite_initiale">
  				</div>	
  				<div class="form-group">
  					<label>Quantité Opérations</label>
- 					<input class="form-control" type="text" name="quantite_operations" id="quantite_operations">
+ 					<input class="form-control" type="text" name="quantite_operations" id="quantite_operations" placeholder="Entrez la quantité de cartes restantes">
  				</div>	
  				<div class="form-group">
  					<label>Quantité Restante</label>
  					<input class="form-control" type="text" name="quantite_restante" id="quantite_restante" disabled="">
  				</div>	
+ 				<input type="submit" class="btn btn-success" value="Enregistrer">
  			</div>
+ 			
  		</div>
+ 		</form>
  	</div>
  	<script type="text/javascript" src="../assets/js/jquery-3.3.1.min.js"></script>
  	<script type="text/javascript" src="../assets/js/ajax/inventaire_stock_agent.js"></script>

@@ -124,7 +124,32 @@ class Agent
 			");
 		$etat = $resultat->execute(array('i'=>$id_stock, 'mo'=>$montant_operations, 'mr'=>$montant_restant))
 			 or print_r($resultat->errorInfo());
-		return 	$etat;					
+		return 	$etat;
+	}
+
+	function enregistrer_inventaire_unites($id_stock, $montant_operations, $montant_restant, $quantite_operations, $quantite_restante){
+		$connexion = new Connexion();
+		$bdd = $connexion->GetConnexion();
+		$resultat = $bdd->prepare("
+			update stock_agent set 
+				montant_operations = :mo, montant_restant = :mr,
+				quantite_operations = :qo, quantite_restant = :qr
+			where id = :i
+			");
+		$etat = $resultat->execute(array('i'=>$id_stock, 'mo'=>$montant_operations, 'mr'=>$montant_restant, 'qo'=>$quantite_operations, 'qr'=>$quantite_restante))
+				or print_r($resultat->errorInfo());
+		return 	$etat;
+	}
+
+	function enregistrer_unites_initial(){
+		$connexion = new Connexion();
+		$bdd = $connexion->GetConnexion();
+		$resultat = $bdd->prepare("
+			
+			");
+		$etat = $resultat->execute(array('i'=>$id_stock, 'mo'=>$montant_operations, 'mr'=>$montant_restant, 'qo'=>$quantite_operations, 'qr'=>$quantite_restante))
+				or print_r($resultat->errorInfo());
+		return 	$etat;	
 	}
 
 }
