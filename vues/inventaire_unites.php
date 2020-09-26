@@ -38,12 +38,14 @@
  					</div>
  					<div class="form-group">
  						<label>Montant Opérations</label>
- 						<input type="number" name="montant_operations" class="form-control" id="montant_operations" value="" placeholder="Entrez le montant après les opérations">
+ 						<input type="number" name="montant_operations" class="form-control" id="montant_operations" value="" placeholder="Entrez le montant après les opérations" required>
  					</div>
  					<div class="form-group">
  						<label>Montant Restant</label>
- 						<input type="number" name="montant_restant" class="form-control" id="montant_restant" value="" placeholder="Montant restant" disabled>
+ 						<input type="text" name="montant_restant" class="form-control" id="montant_restant" value="" placeholder="Montant restant" disabled>
  					</div>
+ 					<input type="text" name="id_agent" value="<?php echo $info_agent['id'] ?>">
+ 					<input type="text" name="id_categorie_produit" value="<?php echo $categorie ?>">
  					
 
  				
@@ -56,7 +58,7 @@
  				</div>	
  				<div class="form-group">
  					<label>Quantité Opérations</label>
- 					<input class="form-control" type="text" name="quantite_operations" id="quantite_operations" placeholder="Entrez la quantité de cartes restantes">
+ 					<input class="form-control" type="number" name="quantite_operations" id="quantite_operations" placeholder="Entrez la quantité de cartes restantes" required>
  				</div>	
  				<div class="form-group">
  					<label>Quantité Restante</label>

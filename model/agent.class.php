@@ -141,15 +141,59 @@ class Agent
 		return 	$etat;
 	}
 
-	function enregistrer_unites_initial(){
+	function recuperer_infos_inventaire($id_agent, $id_categorie){
 		$connexion = new Connexion();
 		$bdd = $connexion->GetConnexion();
 		$resultat = $bdd->prepare("
-			
+			select st.id_agent_produit, st.montant_restant, st.id_type_unites, st.id_format_carte, quantite_restant
+			from stock_agent st, t_produit p, t_agent a, t_agent_produit ap, t_categorie_produit cp
+			where st.date_stock = current_date - 1
+				and st.id_agent_produit = ap.id
+				and ap.id_produit = p.id
+				and ap.id_agent = a.id
+                and p.id_categorie_produit = cp.id
+                and p.id_categorie_produit = :cp
+				and a.id = :a
 			");
-		$etat = $resultat->execute(array('i'=>$id_stock, 'mo'=>$montant_operations, 'mr'=>$montant_restant, 'qo'=>$quantite_operations, 'qr'=>$quantite_restante))
+		$resultat->execute(array('a'=>$id_agent, 'cp'=>$id_categorie))
 				or print_r($resultat->errorInfo());
-		return 	$etat;	
+		return $resultat->fetchAll();
 	}
 
+	function enregistrer_unites_initiales($id_agent_produit, $montant_initial, $id_type_unites, $id_format_carte, $quantite_initiale){
+		$connexion = new Connexion();
+		$bdd = $connexion->GetConnexion();
+
+		// calcul de la date du prochain jour 
+		$jour = date("d");
+        if(date("l") == "Sunday"){
+            $jour = $jour + 2;
+        }else{
+            $jour = $jour + 1;
+        }
+
+        $annee = date("Y");
+        $mois = date("m");
+        $my_date = date($annee.'-'.$mois.'-'.$jour);
+
+        if(date("l") != "Sunday"){
+        	$resultat = $bdd->prepare("
+				INSERT INTO stock_agent(date_stock, id_agent_produit, montant_initial, id_type_unites, id_format_carte, quantite_initiale)
+					values(current_date + 1, :ap, :mi, :tu, :fc, :qi);
+			");
+        }else{
+        	$resultat = $bdd->prepare("
+				INSERT INTO stock_agent(date_stock, id_agent_produit, montant_initial, id_type_unites, id_format_carte, quantite_initiale)
+					values(current_date + 1, :ap, :mi, :tu, :fc, :qi);
+			");
+        }
+
+        	
+			
+		$etat = $resultat->execute(array('ap'=>$id_agent_produit, 'mi'=>$montant_initial, 'tu'=>$id_type_unites, 'fc'=>$id_format_carte, 'qi'=>$quantite_initiale))
+				or print_r($resultat->errorInfo());
+		return 	$etat;	
+        
+        
+	}
 }

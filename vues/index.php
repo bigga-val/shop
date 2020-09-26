@@ -9,7 +9,7 @@
         // print_r($_SESSION);
         
     }
-
+    
     require_once('../model/fournisseur.class.php');
     require_once('../model/categorie.class.php');
     require_once('../model/produit.class.php');
@@ -44,10 +44,7 @@
         // echo $formats_tab[$i]['id_type_unites'];
         $liste.= $formats_tab[$i]['id_type_unites'].";";
     }
-    // echo($types_tab.toString());
     
-    echo $liste;
-    //print_r($types_tab);
 
 
  ?>
