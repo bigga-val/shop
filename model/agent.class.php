@@ -22,7 +22,7 @@ class Agent
 		return $resultat->fetchAll();
 	}
 
-	function afficher_stock_unites_agent($id_agent, $id_categorie){
+	function afficher_stock_unites_carte_agent($id_agent, $id_categorie){
 		$connexion = new Connexion();
 		$bdd = $connexion->GetConnexion();
 		if($id_categorie == 1){
@@ -39,9 +39,31 @@ class Agent
 					and st.id_type_unites = tu.id
 					and st.id_format_carte = fc.id
 					and a.id = :d 
-				    and cp.id = :c;
+				    and cp.id = :c
+				    order by st.id desc
 				");
 			$resultat->execute(array('d'=>$id_agent, 'c'=>$id_categorie)) or print_r($resultat->errorInfo());
+			return $resultat->fetchAll();		
+		}
+	}
+
+	function afficher_stock_unites_flash_agent($id_agent, $id_categorie){
+		$connexion = new Connexion();
+		$bdd = $connexion->GetConnexion();
+		if($id_categorie == 1){
+			$resultat = $bdd->prepare("
+				select st.id, st.id_agent_produit,  st.date_stock , p.nom, st.montant_initial, st.montant_operations, st.montant_restant, tu.nom_type
+				from stock_agent st, t_produit p, t_agent a, t_agent_produit ap, t_categorie_produit cp, t_type_unites tu
+							where st.id_agent_produit = ap.id
+								and a.id = ap.id_agent
+								and p.id = ap.id_produit
+								and p.id_categorie_produit = cp.id
+								and st.id_type_unites = tu.id
+								and tu.nom_type = 'flash'
+			                    and a.id = :d
+			                    order by st.id desc;
+				");
+			$resultat->execute(array('d'=>$id_agent)) or print_r($resultat->errorInfo());
 			return $resultat->fetchAll();		
 		}
 	}

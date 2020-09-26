@@ -117,3 +117,30 @@ where st.id_agent_produit = ap.id
 	and st.id_format_carte = fc.id
 	and a.id = 2 
     and cp.id = 1;
+
+
+create table stock_gerant(id int primary key auto_increment, id_produit int,
+	montant double, id_type_unites int, id_format_carte int, quantite int, id_devise int,
+	constraint fk_stock_gerant_produit foreign key(id_produit) references t_produit(id),
+	constraint fk_stock_gerant_type_unites foreign key(id_type_unites) references t_type_unites(id),
+	constraint fk_stock_gerant_format_carte foreign key(id_format_carte) references t_format_carte(id)
+	constraint fk_stock_gerant_devise foreign key(id_devise) references t_devise(id)
+	)
+
+
+select sg.id, p.nom, sg.montant, t.nom_type, f.nom_format, d.nom_devise
+from stock_gerant sg, t_produit p, t_type_unites t, t_format_carte f, devise d, t_categorie_produit cp
+where sg.id_produit = p.id
+	-- and sg.id_format_carte = f.id
+	-- and sg.id_type_unites = t.id
+	and sg.id_devise = d.id
+	and t.id_produit = p.id	
+	and p.id_categorie_produit = cp.id
+	and p.id_categorie_produit = 1
+	order by sg.id desc
+
+select sg.id, p.nom, sg.montant, tu.nom_type, f.nom_format 
+from stock_gerant sg, t_type_unites tu, t_produit p, t_format_carte f
+where sg.id_type_unites = tu.id
+	and sg.id_produit = p.id
+	order by sg.id asc

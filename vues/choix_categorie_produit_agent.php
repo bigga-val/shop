@@ -18,10 +18,9 @@
  </head>
  <body>
  	<?php include "navbar.php"; ?>
- 	<div class="container">
+ 	<div class="container-fluid">
  		<h2>Stock Agent</h2>
-
- 		<div class="row p-5">
+ 		<div class="row">
  					<!-- <table class="table table-hover">
  						<thead>
  							<th>Categorie</th>
@@ -56,14 +55,18 @@
  				
 		</div>
 		<div class="row">
-			<div class="col-md-12" id="tableau_stock">
+			
+			<div class="col-md-12"  id="tableau_stock">
+				
 				<div class="jumbotron">
 					<h3>Aucune données à afficher</h3>
 					<p>Veuillez sélectionner un agent et la categorie de produit à afficher</p>
-				</div>
+				</div>	
 			</div>
+				
 		</div>
 	</div>
+</div>
  	
  	<script type="text/javascript" src="../assets/js/jquery-3.3.1.min.js"></script>
  	<script type="text/javascript" src="../assets/js/ajax/tri_categorie_produit_agent.js"></script>

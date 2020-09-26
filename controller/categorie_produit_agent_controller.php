@@ -24,10 +24,13 @@ if(isset($agent)){
 	// echo $agent;
 }elseif (isset($id_categorie) and isset($id_agent)) {
 	if ($id_categorie == 1) {
-		$stock_unites = $a->afficher_stock_unites_agent($id_agent, $id_categorie);
+		$stock_unites = $a->afficher_stock_unites_carte_agent($id_agent, $id_categorie);
+		$stock_flash = $a->afficher_stock_unites_flash_agent($id_agent, $id_categorie);
 		$actions = "";
-		$tableau = '<table class="table table-hover">
-		 	<thead>
+		$tableau ='<div style="width: 100%; height: 200px; overflow: scroll;" >';
+		$tableau .='<h4>Unités Cartes</h4>';
+		$tableau .= '<table class="table table-hover">
+		 	<thead class="sticky-top table-primary">
 		 		<th>Date</th>
 		 		<th>Produit</th>
 		 		<th>Mont. Init</th>
@@ -64,6 +67,48 @@ if(isset($agent)){
 		 	}
 		 	$tableau.='</tbody>';
 		 $tableau.='</table>';
+		$tableau.='</div>';
+
+
+// tableau de unités flash debut
+		 $tableau .='<div style="width: 100%; height: 200px; overflow: scroll;" >';
+		$tableau .='<h4>Unités Flash</h4>';
+		$tableau .= '<table class="table table-hover">
+		 	<thead class="sticky-top table-primary">
+		 		<th>Date</th>
+		 		<th>Produit</th>
+		 		<th>Mont. Init</th>
+		 		<th>Mont. Operations</th>
+		 		<th>Mont. Restant</th>
+		 		<th>Actions</th>
+		 	</thead>
+		 	<tbody>';
+		 	foreach ($stock_flash as $stock) {
+		 		if($stock["montant_restant"] == NULL){
+		 			$actions = '<a href="inventaire_unites.php?categorie='.$id_categorie.'&agent='.$id_agent.'&id_stock='.$stock["id"].'">Inventaire</a> <a href="#!">Approvisionner</a>';
+		 		}else{
+		 			$actions = '<span class="badge badge-secondary">Archive</span>';
+		 		}
+		 		$tableau.='<tr>';
+		 			$tableau.='<td>'.$stock["date_stock"].'</td>';
+		 			$tableau.='<td>'.$stock["nom"].'</td>';
+		 			$tableau.='<td>'.$stock["montant_initial"].'</td>';
+		 			$tableau.='<td>'.$stock["montant_operations"].'</td>';
+		 			$tableau.='<td>'.$stock["montant_restant"].'</td>';
+		 			// $tableau.='<td>Inventaire</td>';
+		 			$tableau.='<td>'.$actions.'</td>';
+		 		$tableau.='</tr>';
+		 	}
+		 	$tableau.='</tbody>';
+		 $tableau.='</table>';
+		 $tableau.='</div>';
+
+
+// fin tableau unités flash
+
+
+
+
 		echo $tableau;
 
 
@@ -72,6 +117,7 @@ if(isset($agent)){
 	}elseif($id_categorie == 2){
 		$stock_emoney = $a->afficher_stock_emoney_agent($id_agent, $id_categorie);
 		$actions = "";
+		$tableau = '<div style="width: 100%; height: 200px; overflow: scroll;" >';
 		$tableau = '<table class="table table-hover">
 		 	<thead>
 		 		<th>Date</th>
@@ -100,6 +146,7 @@ if(isset($agent)){
 		 	}
 		 	$tableau.='</tbody>';
 		 $tableau.='</table>';
+		$tableau.='</div>';
 		echo $tableau;
 	}
 }
