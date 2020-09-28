@@ -1,4 +1,13 @@
 <?php 
+	session_start();
+    if(empty($_SESSION['login']) or !isset($_SESSION['login'])){
+        session_destroy();
+        unset($_SESSION);
+        header("Location:../");
+    }else{
+        // print_r($_SESSION);
+        
+    }
 	extract($_GET);
 	extract($_POST);
 

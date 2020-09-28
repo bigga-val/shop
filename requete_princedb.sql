@@ -127,6 +127,15 @@ create table stock_gerant(id int primary key auto_increment, id_produit int,
 	constraint fk_stock_gerant_devise foreign key(id_devise) references t_devise(id)
 	)
 
+alter table t_historique_fournissement_agent
+add column id_devise int;
+alter table t_historique_fournissement_agent
+add constraint fk_historique_fournissement_agent_devise foreign key(id_devise) references devise(id);
+
+alter table stock_agent
+add column id_devise int DEFAULT 2;
+alter table stock_agent
+add constraint fk_stock_agent_devise foreign key(id_devise) references devise(id);
 
 select sg.id, p.nom, sg.montant, t.nom_type, f.nom_format, d.nom_devise
 from stock_gerant sg, t_produit p, t_type_unites t, t_format_carte f, devise d, t_categorie_produit cp
@@ -144,3 +153,4 @@ from stock_gerant sg, t_type_unites tu, t_produit p, t_format_carte f
 where sg.id_type_unites = tu.id
 	and sg.id_produit = p.id
 	order by sg.id asc
+

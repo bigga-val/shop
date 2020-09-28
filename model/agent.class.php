@@ -29,7 +29,8 @@ class Agent
 			$resultat = $bdd->prepare("
 				select st.id, st.date_stock , p.nom, st.montant_initial, st.montant_operations, st.montant_restant, 
 					tu.nom_type, fc.nom_format,
-					st.quantite_initiale, st.quantite_operations, st.quantite_restant
+					st.quantite_initiale, st.quantite_operations, st.quantite_restant,
+					st.id_type_unites, st.id_format_carte, st.id_devise, p.id as produit
 				from stock_agent st, t_produit p, t_agent a, t_agent_produit ap, t_categorie_produit cp,
 					t_type_unites tu, t_format_carte fc
 				where st.id_agent_produit = ap.id
@@ -112,6 +113,7 @@ class Agent
 			 or print_r($resultat->errorInfo());
 		return $resultat->fetch();			
 	}
+
 	function afficher_single_agent($id){
 		$connexion = new Connexion();
 		$bdd = $connexion->GetConnexion();
@@ -136,6 +138,7 @@ class Agent
 			 or print_r($resultat->errorInfo());
 		return $resultat->fetch();					
 	}
+
 
 	function enregistrer_inventaire_emoney($id_stock, $montant_operations, $montant_restant){
 		$connexion = new Connexion();
@@ -215,7 +218,60 @@ class Agent
 		$etat = $resultat->execute(array('ap'=>$id_agent_produit, 'mi'=>$montant_initial, 'tu'=>$id_type_unites, 'fc'=>$id_format_carte, 'qi'=>$quantite_initiale))
 				or print_r($resultat->errorInfo());
 		return 	$etat;	
-        
-        
 	}
+
+	function afficher_single_agent_produit($id_agent, $id_produit){
+		$connexion = new Connexion();
+		$bdd = $connexion->GetConnexion();
+		$resultat = $bdd->prepare("
+			select ap.id id from t_agent_produit ap, t_produit p, t_agent a
+			where ap.id_produit = p.id
+				and ap.id_agent = a.id
+				and ap.id_agent = :a
+				and ap.id_produit = :p
+			    ");
+		$resultat->execute(array('p'=>$id_produit, 'a'=>$id_agent))
+			or die(print_r($bdd->errorMessage()));
+		return $resultat->fetch();		
+	}
+
+	function get_dernier_historique(){
+		$connexion = new Connexion();
+		$bdd = $connexion->GetConnexion();
+		$resultat = $bdd->prepare("
+			select max(id) id from t_historique_fournissement_agent;
+			");
+		$etat = $resultat->execute(array())
+			 or print_r($resultat->errorInfo());
+		return 	$etat;
+	}																										
+
+
+	function approvisionner_stock_agent($id_stock, $montant, $quantite, $id_historique_fournissement){
+		$connexion = new Connexion();
+		$bdd = $connexion->GetConnexion();
+
+		$resultat = $bdd->prepare("
+			update stock_agent set montant_initial = montant_initial + :m, quantite_initiale = quantite_initiale + :q, id_historique_fournissement = :h
+			where id = :i
+			");
+		$etat = $resultat->execute(array('i'=>$id_stock, 'm'=>$montant, 'q'=>$quantite, 'h'=>$id_historique_fournissement))
+			 or print_r($resultat->errorInfo());
+		return 	$etat;	
+	}
+
+	function enregistrer_historique_approvisionnement_agent_unites_cartes($id_agent, $id_produit, $montant,  $quantite, $id_type_unites, $id_format_carte, $id_devise){
+		$connexion = new Connexion();
+		$bdd = $connexion->GetConnexion();
+		
+		$ap = $this->afficher_single_agent_produit($id_agent, $id_produit);
+		$id_agent_produit = $ap['id'];
+		$resultat = $bdd->prepare("
+			INSERT into t_historique_fournissement_agent(date_fournissement, id_agent_produit, montant, quantite, id_type_unites, id_format_carte, id_devise)
+				values(current_date, $id_agent_produit, :m, :q, :tu, :fc, :d);
+			");
+		$etat = $resultat->execute(array('m'=>$montant, 'q'=>$quantite, 'tu'=>$id_type_unites, 'fc'=>$id_format_carte, 'd'=>$id_devise)) or print_r($resultat->errorInfo());
+		return 	$etat;		
+	}	
+
 }

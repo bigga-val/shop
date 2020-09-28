@@ -1,5 +1,15 @@
 <?php 
 
+session_start();
+if(empty($_SESSION['login']) or !isset($_SESSION['login'])){
+    session_destroy();
+    unset($_SESSION);
+    header("Location:../");
+}else{
+    // print_r($_SESSION);
+    
+}
+
 require_once("../controller/functions.php");
 $unites_flash = get_stock_gerant_unites_flash();
 // print_r($unites_flash);
@@ -40,7 +50,7 @@ $emoney = get_stock_gerant_emoney();
  								<td><?php echo $unites['montant'] ?></td>
  								<td><?php echo $unites['nom_format'] ?></td>
  								<td><?php echo $unites['quantite'] ?></td>
- 								<td><a href="">Approvisionner</a></td>
+ 								<td><a href="index.php">Approvisionner</a></td>
  							</tr>
  						<?php $i++; } ?>
  					</tbody>
@@ -56,6 +66,7 @@ $emoney = get_stock_gerant_emoney();
  						<th>N°</th>
  						<th>Produit</th>
  						<th>Montant</th>
+ 						<th>Quantité</th>
  						<th>Actions</th>
  					</thead>
  					<tbody>
@@ -65,7 +76,7 @@ $emoney = get_stock_gerant_emoney();
  								<td><?php echo $unites['nom'] ?></td>
  								<td><?php echo $unites['montant'] ?></td>
  								<td><?php echo $unites['quantite'] ?></td>
- 								<td><a href="">Approvisionner</a></td>
+ 								<td><a href="index.php">Approvisionner</a></td>
  							</tr>
  						<?php $i++; } ?>
  					</tbody>
@@ -89,7 +100,7 @@ $emoney = get_stock_gerant_emoney();
  								<td><?php echo $i ?></td>
  								<td><?php echo $money['nom'] ?></td>
  								<td><?php echo $money['montant'] ?></td>
- 								<td><a href="">Approvisionner</a></td>
+ 								<td><a href="index.php">Approvisionner</a></td>
  							</tr>
  						<?php $i++; } ?>
  					</tbody>

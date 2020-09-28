@@ -101,8 +101,6 @@
                     </select>    
                 </div>
                 <input type="submit" name="form_fournisseur" class="btn btn-primary" value="enregistrer">
-                <input type="cancel" class="btn btn-danger" value="annuler">
-
         </div>
         <div class="col-md-6 pt-5">
                 <div class="form-group">

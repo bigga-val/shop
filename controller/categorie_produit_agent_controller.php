@@ -27,7 +27,7 @@ if(isset($agent)){
 		$stock_unites = $a->afficher_stock_unites_carte_agent($id_agent, $id_categorie);
 		$stock_flash = $a->afficher_stock_unites_flash_agent($id_agent, $id_categorie);
 		$actions = "";
-		$tableau ='<div style="width: 100%; height: 200px; overflow: scroll;" >';
+		$tableau ='<div style="width: 100%; height: 250px; overflow: scroll;" >';
 		$tableau .='<h4>Unités Cartes</h4>';
 		$tableau .= '<table class="table table-hover">
 		 	<thead class="sticky-top table-primary">
@@ -46,7 +46,7 @@ if(isset($agent)){
 		 	<tbody>';
 		 	foreach ($stock_unites as $stock) {
 		 		if($stock["montant_restant"] == NULL){
-		 			$actions = '<a href="inventaire_unites.php?categorie='.$id_categorie.'&agent='.$id_agent.'&id_stock='.$stock["id"].'">Inventaire</a> <a href="#!">Approvisionner</a>';
+		 			$actions = '<a href="inventaire_unites.php?categorie='.$id_categorie.'&agent='.$id_agent.'&id_stock='.$stock["id"].'">Inventaire</a> <a href="approvisionnement_agent.php?id_stock='.$stock["id"].'&id_agent='.$id_agent.'&id_produit='.$stock['produit'].'&id_type_unites='.$stock['id_type_unites'].'&id_format_carte='.$stock['id_format_carte'].'&id_devise='.$stock['id_devise'].'">Approvisionner</a>';
 		 		}else{
 		 			$actions = '<span class="badge badge-secondary">Archive</span>';
 		 		}
@@ -71,7 +71,7 @@ if(isset($agent)){
 
 
 // tableau de unités flash debut
-		 $tableau .='<div style="width: 100%; height: 200px; overflow: scroll;" >';
+		 $tableau .='<div style="width: 100%; height: 250px; overflow: scroll;" >';
 		$tableau .='<h4>Unités Flash</h4>';
 		$tableau .= '<table class="table table-hover">
 		 	<thead class="sticky-top table-primary">
@@ -85,7 +85,7 @@ if(isset($agent)){
 		 	<tbody>';
 		 	foreach ($stock_flash as $stock) {
 		 		if($stock["montant_restant"] == NULL){
-		 			$actions = '<a href="inventaire_unites.php?categorie='.$id_categorie.'&agent='.$id_agent.'&id_stock='.$stock["id"].'">Inventaire</a> <a href="#!">Approvisionner</a>';
+		 			$actions = '<a href="inventaire_unites.php?categorie='.$id_categorie.'&agent='.$id_agent.'&id_stock='.$stock["id"].'">Inventaire</a> <a href="approvisionnement_agent.php">Approvisionner</a>';
 		 		}else{
 		 			$actions = '<span class="badge badge-secondary">Archive</span>';
 		 		}
@@ -117,7 +117,7 @@ if(isset($agent)){
 	}elseif($id_categorie == 2){
 		$stock_emoney = $a->afficher_stock_emoney_agent($id_agent, $id_categorie);
 		$actions = "";
-		$tableau = '<div style="width: 100%; height: 200px; overflow: scroll;" >';
+		$tableau = '<div style="width: 100%; height: 250px; overflow: scroll;" >';
 		$tableau = '<table class="table table-hover">
 		 	<thead>
 		 		<th>Date</th>
@@ -130,7 +130,7 @@ if(isset($agent)){
 		 	<tbody>';
 		 	foreach ($stock_emoney as $stock) {
 		 		if($stock["montant_restant"] == NULL){
-		 			$actions = '<a href="inventaire_emoney.php?categorie='.$id_categorie.'&agent='.$id_agent.'&id_stock='.$stock["id"].'">Inventaire</a> <a href="#!">Approvisionner</a>';
+		 			$actions = '<a href="inventaire_emoney.php?categorie='.$id_categorie.'&agent='.$id_agent.'&id_stock='.$stock["id"].'">Inventaire</a> <a href="approvisionnement_agent.php">Approvisionner</a>';
 		 		}else{
 		 			$actions = '<span class="badge badge-secondary">Archive</span>';
 		 		}

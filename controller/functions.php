@@ -4,6 +4,13 @@ require_once("dbase.php");
 
 
 
+function var_clean($var){
+	$var = trim($var);
+	$var = stripslashes($var);
+	$var = htmlspecialchars($var);
+	return $var;
+}
+
 function get_stock_gerant_unites_cartes(){
 	$connexion = new Connexion();
 	$bdd = $connexion->GetConnexion();
@@ -48,3 +55,45 @@ function get_stock_gerant_emoney(){
 	$resultat->execute(array()) or die(print_r($bdd->errorMessage()));
 	return $resultat->fetchAll();
 }
+
+function retirer_stock_gerant_unites_cartes($id_produit, $montant, $quantite, $id_type_unites, $id_format_carte){
+	$connexion = new Connexion();
+	$bdd = $connexion->GetConnexion();
+	$resultat = $bdd->prepare("
+		UPDATE stock_gerant set montant = montant - :m, quantite = quantite - :q
+			WHERE id_produit = :p
+				and id_type_unites = :t
+				and id_format_carte = :f
+		    ");
+	$res = $resultat->execute(array('p'=>$id_produit, 'm'=>$montant, 'q'=>$quantite, 't'=>$id_type_unites, 'f'=>$id_format_carte))
+		or die(print_r($bdd->errorMessage()));
+	return $res;
+}
+
+function retirer_stock_gerant_unites_flash($id_produit, $montant, $quantite, $id_type_unites){
+	$connexion = new Connexion();
+	$bdd = $connexion->GetConnexion();
+	$resultat = $bdd->prepare("
+		UPDATE stock_gerant set montant = montant - :m, quantite = quantite - :q
+			WHERE id_produit = :p
+				and id_type_unites = :t
+				and id_format_carte is NULL
+		    ");
+	$res = $resultat->execute(array('p'=>$id_produit, 'm'=>$montant, 'q'=>$quantite, 't'=>$id_type_unites))
+		or die(print_r($bdd->errorMessage()));
+	return $res;
+}
+
+function retirer_stock_gerant_emoney($id_produit, $montant){
+	$connexion = new Connexion();
+	$bdd = $connexion->GetConnexion();
+	$resultat = $bdd->prepare("
+		UPDATE stock_gerant set montant = montant - :m
+			WHERE id_produit = :p
+				and id_type_unites is NULL;
+		    ");
+	$res = $resultat->execute(array('p'=>$id_produit, 'm'=>$montant))
+		or die(print_r($bdd->errorMessage()));
+	return $res;
+}
+
