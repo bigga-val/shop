@@ -22,7 +22,7 @@ $emoney = get_stock_gerant_emoney();
  <!DOCTYPE html>
  <html>
  <head>
- 	<title>Approvisionnement Agent - Prince Shop</title>
+ 	<title>Stock Gérant - Prince Shop</title>
  	<link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css"/>
     <!-- <link rel="stylesheet" type="text/css" href="../assets/bootstrap.css"> -->
     <link rel="stylesheet" type="text/css" href="../assets/css/main.css"/>
@@ -30,7 +30,8 @@ $emoney = get_stock_gerant_emoney();
  <body>
  	<?php include "navbar.php" ?>
  	<div class="container">
- 		Stock Gérant : Unités Cartes
+ 		<h2>Stock du Gérant</h2>
+ 		<p>Unités Flash</p>
  		<div class="row">
  			<div class="col-md-12">
  				<table class="table table-hover">

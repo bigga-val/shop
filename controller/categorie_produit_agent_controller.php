@@ -24,7 +24,7 @@ if(isset($agent)){
 	// echo $agent;
 }elseif (isset($id_categorie) and isset($id_agent)) {
 	if ($id_categorie == 1) {
-		$stock_unites = $a->afficher_stock_unites_carte_agent($id_agent, $id_categorie);
+		$stock_cartes = $a->afficher_stock_unites_carte_agent($id_agent, $id_categorie);
 		$stock_flash = $a->afficher_stock_unites_flash_agent($id_agent, $id_categorie);
 		$actions = "";
 		$tableau ='<div style="width: 100%; height: 250px; overflow: scroll;" >';
@@ -44,9 +44,9 @@ if(isset($agent)){
 		 		<th>Actions</th>
 		 	</thead>
 		 	<tbody>';
-		 	foreach ($stock_unites as $stock) {
+		 	foreach ($stock_cartes as $stock) {
 		 		if($stock["montant_restant"] == NULL){
-		 			$actions = '<a href="inventaire_unites.php?categorie='.$id_categorie.'&agent='.$id_agent.'&id_stock='.$stock["id"].'">Inventaire</a> <a href="approvisionnement_agent.php?id_stock='.$stock["id"].'&id_agent='.$id_agent.'&id_produit='.$stock['produit'].'&id_type_unites='.$stock['id_type_unites'].'&id_format_carte='.$stock['id_format_carte'].'&id_devise='.$stock['id_devise'].'">Approvisionner</a>';
+		 			$actions = '<a href="inventaire_unites.php?categorie='.$id_categorie.'&agent='.$id_agent.'&id_stock='.$stock["id"].'">Inventaire</a> <a href="approvisionnement_agent.php?id_stock='.$stock["id"].'&id_agent='.$id_agent.'&id_produit='.$stock['produit'].'&id_type_unites='.$stock['id_type_unites'].'&id_format_carte='.$stock['id_format_carte'].'&id_devise='.$stock['id_devise'].'&nom_type='.$stock["nom_type"].'&prenom='.$stock["prenom"].'&nom_produit='.$stock["nom"].'">Approvisionner</a>';
 		 		}else{
 		 			$actions = '<span class="badge badge-secondary">Archive</span>';
 		 		}
@@ -80,12 +80,15 @@ if(isset($agent)){
 		 		<th>Mont. Init</th>
 		 		<th>Mont. Operations</th>
 		 		<th>Mont. Restant</th>
+		 		<th>Qté Initiale</th>
+		 		<th>Qté Opérations</th>
+		 		<th>Qté Restante</th>
 		 		<th>Actions</th>
 		 	</thead>
 		 	<tbody>';
 		 	foreach ($stock_flash as $stock) {
 		 		if($stock["montant_restant"] == NULL){
-		 			$actions = '<a href="inventaire_unites.php?categorie='.$id_categorie.'&agent='.$id_agent.'&id_stock='.$stock["id"].'">Inventaire</a> <a href="approvisionnement_agent.php">Approvisionner</a>';
+		 			$actions = '<a href="inventaire_unites.php?categorie='.$id_categorie.'&agent='.$id_agent.'&id_stock='.$stock["id"].'">Inventaire</a> <a href="approvisionnement_agent.php?id_stock='.$stock["id"].'&id_agent='.$id_agent.'&id_produit='.$stock['produit'].'&id_type_unites='.$stock['id_type_unites'].'&id_format_carte='.$stock['id_format_carte'].'&id_devise='.$stock['id_devise'].'&nom_type='.$stock["nom_type"].'&prenom='.$stock["prenom"].'&nom_produit='.$stock["nom"].'">Approvisionner</a>';
 		 		}else{
 		 			$actions = '<span class="badge badge-secondary">Archive</span>';
 		 		}
@@ -95,6 +98,9 @@ if(isset($agent)){
 		 			$tableau.='<td>'.$stock["montant_initial"].'</td>';
 		 			$tableau.='<td>'.$stock["montant_operations"].'</td>';
 		 			$tableau.='<td>'.$stock["montant_restant"].'</td>';
+		 			$tableau.='<td>'.$stock["quantite_initiale"].'</td>';
+		 			$tableau.='<td>'.$stock["montant_operations"].'</td>';
+		 			$tableau.='<td>'.$stock["quantite_restant"].'</td>';
 		 			// $tableau.='<td>Inventaire</td>';
 		 			$tableau.='<td>'.$actions.'</td>';
 		 		$tableau.='</tr>';

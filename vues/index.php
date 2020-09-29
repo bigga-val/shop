@@ -65,7 +65,7 @@
 
 <div class="container">
     <div class="row p-0">
-        <h2 class="text-center">Approvisionnement</h2>
+        <h2 class="text-center">Approvisionnement Gérant</h2>
     </div>
     <div class="row pb-4">
         <div class="col-md-6 pt-5">

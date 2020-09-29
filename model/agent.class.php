@@ -27,7 +27,7 @@ class Agent
 		$bdd = $connexion->GetConnexion();
 		if($id_categorie == 1){
 			$resultat = $bdd->prepare("
-				select st.id, st.date_stock , p.nom, st.montant_initial, st.montant_operations, st.montant_restant, 
+				select st.id, st.date_stock , p.nom, a.prenom, st.montant_initial, st.montant_operations, st.montant_restant, 
 					tu.nom_type, fc.nom_format,
 					st.quantite_initiale, st.quantite_operations, st.quantite_restant,
 					st.id_type_unites, st.id_format_carte, st.id_devise, p.id as produit
@@ -53,7 +53,9 @@ class Agent
 		$bdd = $connexion->GetConnexion();
 		if($id_categorie == 1){
 			$resultat = $bdd->prepare("
-				select st.id, st.id_agent_produit,  st.date_stock , p.nom, st.montant_initial, st.montant_operations, st.montant_restant, tu.nom_type
+				select st.id, st.id_agent_produit, a.prenom,  st.date_stock , p.nom, st.montant_initial, st.montant_operations, st.montant_restant, tu.nom_type,
+					st.quantite_initiale, st.quantite_operations, st.quantite_restant,
+					st.id_type_unites, st.id_format_carte, st.id_devise, p.id as produit
 				from stock_agent st, t_produit p, t_agent a, t_agent_produit ap, t_categorie_produit cp, t_type_unites tu
 							where st.id_agent_produit = ap.id
 								and a.id = ap.id_agent
@@ -231,7 +233,7 @@ class Agent
 				and ap.id_produit = :p
 			    ");
 		$resultat->execute(array('p'=>$id_produit, 'a'=>$id_agent))
-			or die(print_r($bdd->errorMessage()));
+			or die(print_r($bdd->errorInfo()));
 		return $resultat->fetch();		
 	}
 
@@ -273,5 +275,19 @@ class Agent
 		$etat = $resultat->execute(array('m'=>$montant, 'q'=>$quantite, 'tu'=>$id_type_unites, 'fc'=>$id_format_carte, 'd'=>$id_devise)) or print_r($resultat->errorInfo());
 		return 	$etat;		
 	}	
+
+	function enregistrer_historique_approvisionnement_agent_unites_flash($id_agent, $id_produit, $montant,  $quantite, $id_type_unites, $id_devise){
+		$connexion = new Connexion();
+		$bdd = $connexion->GetConnexion();
+		
+		$ap = $this->afficher_single_agent_produit($id_agent, $id_produit);
+		$id_agent_produit = $ap['id'];
+		$resultat = $bdd->prepare("
+			INSERT into t_historique_fournissement_agent(date_fournissement, id_agent_produit, montant, quantite, id_type_unites, id_devise)
+				values(current_date, $id_agent_produit, :m, :q, :tu, :d);
+			");
+		$etat = $resultat->execute(array('m'=>$montant, 'q'=>$quantite, 'tu'=>$id_type_unites, 'd'=>$id_devise)) or print_r($resultat->errorInfo());
+		return 	$etat;		
+	}
 
 }

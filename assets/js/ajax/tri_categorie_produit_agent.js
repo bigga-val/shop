@@ -12,9 +12,11 @@ $(document).ready(function(){
 				$("input[name=categorie]")[0].checked = true;
 				// console.log($("input[name=categorie]:checked").val());
 				$("#btn_voir_stock").on("click", function(){
-					let c = $("input[name=categorie]:checked").val()
+				// $("input[name=categorie]").on("check", function(){
+					let c = $("input[name=categorie]:checked").val();
+					// let v = $(this).val();
 					$("#tableau_stock").html('<div class="spinner-border text-info"></div>');
-					
+					console.log(c);
 					let agent = $("#agent").val();
 					$.ajax({
 						type:"post",
