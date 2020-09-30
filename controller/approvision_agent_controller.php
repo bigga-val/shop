@@ -70,4 +70,37 @@ if(isset($id_type_unites) and isset($id_format_carte) and !empty($id_format_cart
 		
 	}
 		
+}else if((!isset($id_type_unites) or empty($id_type_unites)) and isset($montant)){
+	try {
+		// $id_type_unites = var_clean($id_type_unites);
+		$id_devise = var_clean($id_devise);
+		$id_stock = var_clean($id_stock);
+		$id_agent = var_clean($id_agent);
+		$id_produit = var_clean($id_produit);
+		$montant = var_clean($montant);
+		// $quantite = var_clean($quantite);
+
+		// echo $quantite;
+		// echo $montant;
+		// echo $id_devise;
+		$agent = new Agent();
+		$save = $agent->enregistrer_historique_approvisionnement_agent_emoney($id_agent, $id_produit, $montant, $id_devise);
+		echo $save;
+		$substract = retirer_stock_gerant_emoney($id_produit, $montant);
+		echo $substract;
+		$dernier_historique = $agent->get_dernier_historique();
+
+		$id_historique_fournissement = $dernier_historique['id'];
+
+		$agent->approvisionner_stock_agent($id_stock, $montant, NULL,  $id_historique_fournissement);
+		echo $save;
+		echo $substract;
+		echo "fin";
+
+
+	} catch (Exception $e) {
+		echo $e->getMessage();
+	}
+}else{
+	echo "rien";
 }

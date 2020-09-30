@@ -75,7 +75,7 @@ class Agent
 		$connexion = new Connexion();
 		$bdd = $connexion->GetConnexion();
 		$resultat = $bdd->prepare("
-			select st.id, st.date_stock, p.nom, st.montant_initial, st.montant_operations, st.montant_restant
+			select st.id, st.date_stock, p.nom, st.montant_initial, st.montant_operations, st.montant_restant, p.id as produit, st.id_devise, a.prenom
 			from stock_agent st, t_produit p, t_agent a, t_agent_produit ap, t_categorie_produit cp
 			where st.id_agent_produit = ap.id
 				and a.id = ap.id_agent
@@ -287,6 +287,20 @@ class Agent
 				values(current_date, $id_agent_produit, :m, :q, :tu, :d);
 			");
 		$etat = $resultat->execute(array('m'=>$montant, 'q'=>$quantite, 'tu'=>$id_type_unites, 'd'=>$id_devise)) or print_r($resultat->errorInfo());
+		return 	$etat;		
+	}
+
+	function enregistrer_historique_approvisionnement_agent_emoney($id_agent, $id_produit, $montant, $id_devise){
+		$connexion = new Connexion();
+		$bdd = $connexion->GetConnexion();
+		
+		$ap = $this->afficher_single_agent_produit($id_agent, $id_produit);
+		$id_agent_produit = $ap['id'];
+		$resultat = $bdd->prepare("
+			INSERT into t_historique_fournissement_agent(date_fournissement, id_agent_produit, montant, id_devise)
+				values(current_date, $id_agent_produit, :m, :d);
+			");
+		$etat = $resultat->execute(array('m'=>$montant, 'd'=>$id_devise)) or print_r($resultat->errorInfo());
 		return 	$etat;		
 	}
 

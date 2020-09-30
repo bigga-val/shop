@@ -136,7 +136,7 @@ if(isset($agent)){
 		 	<tbody>';
 		 	foreach ($stock_emoney as $stock) {
 		 		if($stock["montant_restant"] == NULL){
-		 			$actions = '<a href="inventaire_emoney.php?categorie='.$id_categorie.'&agent='.$id_agent.'&id_stock='.$stock["id"].'">Inventaire</a> <a href="approvisionnement_agent.php">Approvisionner</a>';
+		 			$actions = '<a href="inventaire_emoney.php?categorie='.$id_categorie.'&agent='.$id_agent.'&id_stock='.$stock["id"].'">Inventaire</a> <a href="approvisionnement_agent.php?id_stock='.$stock["id"].'&id_agent='.$id_agent.'&id_produit='.$stock['produit'].'&id_devise='.$stock['id_devise'].'&prenom='.$stock["prenom"].'&nom_produit='.$stock['nom'].'">Approvisionner</a>';
 		 		}else{
 		 			$actions = '<span class="badge badge-secondary">Archive</span>';
 		 		}

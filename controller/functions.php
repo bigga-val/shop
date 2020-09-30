@@ -131,3 +131,18 @@ function get_single_stock_gerant_unites_flash($id_produit, $id_type_unites){
 		or die(print_r($bdd->errorInfo()));
 	return $resultat->fetchAll();
 }
+
+
+function get_single_stock_gerant_emoney($id_produit){
+	$connexion = new Connexion();
+	$bdd = $connexion->GetConnexion();
+	$resultat = $bdd->prepare("
+		select sg.id, p.nom, sg.montant, sg.quantite
+		from stock_gerant sg, t_produit p
+		where sg.id_produit = p.id
+		    and sg.id_produit = :p
+		    ");
+	$resultat->execute(array('p'=>$id_produit)) 
+		or die(print_r($bdd->errorInfo()));
+	return $resultat->fetchAll();
+}

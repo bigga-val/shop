@@ -6,7 +6,7 @@
 	if(isset($inventaire_emoney)){
 		$montant_restant = $montant_initial - $montant_operations;
 		$res = $agent->enregistrer_inventaire_emoney($id_stock, $montant_operations, $montant_restant);
-		header("Location:choix_categorie_produit_agent.php");
+		header("Location:../choix_categorie_produit_agent.php");
 	}
 	if(isset($inventaire_unites)){
 		try {
@@ -28,7 +28,7 @@
 			$agent->enregistrer_unites_initiales($id_agent_produit, $montant_restant, $id_type_unites, $id_format_carte, $quantite_restante);
 
 			
-			// header("Location:../vues/choix_categorie_produit_agent.php");
+			header("Location:../vues/choix_categorie_produit_agent.php");
 			
 		} catch (Exception $e) {
 			die($e->getMessage());
